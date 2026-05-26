@@ -2,10 +2,10 @@
 
 - `L1`：
 	- community / research ecosystem  
-	- examples: EA, GUI, MMI
+	- examples: research ecosystem A, interaction paradigm B, evaluation community C
 - `L2`：
 	- research problem / task family  
-	- examples: VLN, VLA, World Modeling, Video Understanding
+	- examples: task family A, model family B, representation learning C
 - `L3`：
 	- research trajectory / dominant route  
 	- should be able to absorb at least 3–5 future papers  

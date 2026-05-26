@@ -72,20 +72,18 @@
 - `docs/operation/DailyPaperWorklist.md`
 - `docs/pattern/DailyPaperReport.md`
 
-每日根据 `docs/UserFocus.md` 的近期关注点临时生成 arXiv query，并检查 Hugging Face Papers 日期页：
+每日根据 `docs/UserFocus.md` 的近期关注点临时生成 query，并检查公开论文来源。
 
-- `https://huggingface.co/papers/date/YYYY-MM-DD`
-
-OpenReview 作为补充来源，用于发现近期会议和 workshop 论文。不要使用 arXiv RSS 作为 fallback。
+可选来源包括 arXiv query search、Hugging Face Papers 日期页、OpenReview、Semantic Scholar、publisher page 等。不要使用过宽 RSS 作为 fallback。
 
 默认只做论文发现和候选报告，不下载、不解析、不生成 summary、不写入 `wiki/papers/` 等知识正文页面。
 
 执行时先用 `docs/UserFocus.md` 判断用户近期关注点；只有需要去重或定位时再读取根目录 `INDEX-*.md`，不要默认读取完整 wiki 页面。
 
-最终报告生成两个版本：
+最终报告默认生成本地版本，并可选生成外部发布版本：
 
-- 飞书版本：写入飞书云文档，重要内容用彩色字体、加粗或高亮块强调。
-- Obsidian 版本：写入 `wiki/daily-report/Daily-Paper-Watch-YYYY-MM-DD.md`。
+- 本地版本：写入 `wiki/daily-report/Daily-Paper-Watch-YYYY-MM-DD.md`。
+- 外部版本：如需发布到外部文档或消息系统，正文必须与本地版本保持一致。
 
 ## 5.3 PDF 到 Markdown 解析
 

@@ -1,13 +1,13 @@
 # Daily Paper Report Pattern
 
-用于每日论文发现报告。该报告有两个版本：
+用于每日论文发现报告。公开版模板只规定内容结构，不绑定具体个人关注方向、私有账号或外部文档平台。
 
-- Obsidian 版本：写入 `wiki/daily-report/Daily-Paper-Watch-YYYY-MM-DD.md`，必须包含 YAML frontmatter。
-- 飞书版本：写入飞书云文档，正文内容必须与 Obsidian 版本保持一致；飞书版不包含 YAML frontmatter。
+- 本地版本：写入 `wiki/daily-report/Daily-Paper-Watch-YYYY-MM-DD.md`，必须包含 YAML frontmatter。
+- 可选外部发布版本：正文内容必须与本地版本保持一致；外部版本不包含 YAML frontmatter。
 
 日报属于 discover report，不等于论文入库。候选论文不要写成不存在的内部反链。
 
-## 1 Obsidian Version
+## 1 Local Markdown Version
 
 ```markdown
 ---
@@ -16,13 +16,12 @@ date: YYYY-MM-DD
 focus_source: docs/UserFocus.md
 search_window: YYYY-MM-DD..YYYY-MM-DD
 sources:
-  - huggingface_papers
   - arxiv_query_search
-  - openreview_optional
+  - optional_public_source
 library_check:
   - wiki/papers frontmatter
 status: draft
-feishu_doc:
+external_doc:
 ---
 
 # Daily Paper Watch - YYYY-MM-DD
@@ -39,7 +38,7 @@ feishu_doc:
 
 | Title | Source | Why It Matters | Suggested Action |
 | --- | --- | --- | --- |
-|  | [arXiv](https://arxiv.org/abs/xxxx.xxxxx) / [HF](https://huggingface.co/papers/xxxx.xxxxx) / [OpenReview](https://openreview.net/forum?id=...) |  | download / discuss / watch |
+|  | [Source](https://example.com/paper) |  | download / discuss / watch |
 
 ### 3 Cross-Cutting Candidates
 
@@ -65,7 +64,7 @@ feishu_doc:
 2. 建议先讨论：
 3. 建议继续观察：
 4. 建议更新 `docs/UserFocus.md`：
-5. 需要用户判断：
+5. 需要人工判断：
 
 ### 7 Source Notes
 
@@ -76,7 +75,7 @@ feishu_doc:
 
 `type`
 
-报告类型。Daily Paper Watch 固定使用 `daily-paper-watch`，方便以后用 Dataview 按类型检索。
+报告类型。Daily Paper Watch 固定使用 `daily-paper-watch`，方便以后按类型检索。
 
 `date`
 
@@ -94,12 +93,13 @@ feishu_doc:
 
 本次检查过的数据源。常用值：
 
-- `huggingface_papers`
 - `arxiv_query_search`
-- `semantic_scholar_optional`
+- `huggingface_papers_optional`
 - `openreview_optional`
+- `semantic_scholar_optional`
+- `publisher_page_optional`
 
-使用 `openreview_optional` 时，必须在 `Source Notes` 中说明检查的 venue/year 或 recent window。OpenReview 只用于最近来源补充，不用于无边界历史回溯。
+使用可选来源时，必须在 `Source Notes` 中说明检查的范围或时间窗口。不要做无边界历史回溯。
 
 `library_check`
 
@@ -107,15 +107,15 @@ feishu_doc:
 
 - `wiki/papers frontmatter`
 
-不要写 `INDEX-paper.md` 作为机器检查来源，因为 `INDEX-paper.md` 是 Dataview 视图定义，不是 Claude Code 可直接读取的渲染表格。
+不要写 `INDEX-paper.md` 作为机器检查来源，因为 `INDEX-paper.md` 是 Dataview 视图定义，不是可直接读取的渲染表格。
 
 `status`
 
 日报自身状态。默认 `draft`。不要把它和 paper 的 `status` 混用。
 
-`feishu_doc`
+`external_doc`
 
-飞书文档链接或文档标识。飞书写入失败时留空，并在 `Source Notes` 说明失败原因。
+可选外部发布链接或标识。外部发布失败时留空，并在 `Source Notes` 说明失败原因。
 
 ## 3 Section Rules
 
@@ -125,21 +125,20 @@ feishu_doc:
 
 - `Focus Area`：关注方向名称。
 - `Search Strategy`：本次临时生成的 query 摘要，不必写完整长 query。
-- `Result / Notes`：该方向今天的结论，例如 `高产`、`有少量候选`、`无直接候选`、`OpenReview 有补充`。不要输出 `Reviewed / Kept` 这类数量审计列。
+- `Result / Notes`：该方向今天的结论，例如 `有高相关候选`、`有少量候选`、`无直接候选`、`可选来源有补充`。不要输出 `Reviewed / Kept` 这类数量审计列。
 
 ## 2 Recommended Candidates
 
 按关注方向分组列出候选。每个 focus area 使用一个 `###` 小节。
 
 - `Title`：论文标题。
-- `Source`：必须使用可点击链接，例如 `[arXiv](https://arxiv.org/abs/xxxx.xxxxx)`、`[HF](https://huggingface.co/papers/xxxx.xxxxx)`、`[OpenReview](https://openreview.net/forum?id=...)`。不要只写裸 arXiv ID，也不要伪造链接。
+- `Source`：必须使用可点击链接，例如 `[arXiv](https://arxiv.org/abs/xxxx.xxxxx)`、`[OpenReview](https://openreview.net/forum?id=...)`、`[DOI](https://doi.org/...)`。不要只写裸 source id，也不要伪造链接。
 - `Why It Matters`：为什么和当前关注方向有关，尽量说明命中的任务、方法、benchmark、dataset、system 或 gap。
 - `Suggested Action`：只能使用 `download`、`discuss`、`watch` 之一。
-- OpenReview 候选如果有可核验链接或 ID，直接写入对应 focus area 的 `Recommended Candidates` 表格；不要为 OpenReview 单独开候选区。
 
 ## 3 Cross-Cutting Candidates
 
-放同时命中多个关注方向的候选，例如同时涉及 benchmark、GUI agent 和 long-horizon evaluation 的论文。
+放同时命中多个关注方向的候选。
 
 如果没有 cross-cutting candidate，写 `None`。
 
@@ -177,37 +176,16 @@ details omitted
 
 ## 7 Source Notes
 
-记录抓取异常、重复合并、OpenReview 补充检索的 venue/year 或 recent window、Hugging Face 页面缺字段、飞书写入失败等情况。
+记录抓取异常、重复合并、可选来源补充检索范围、页面缺字段、外部发布失败等情况。
 
-## 4 Feishu Version
+## 4 Optional External Version
 
-飞书版本与 Obsidian 版本使用同一份正文内容，章节、候选论文、排序、行动建议和 Source Notes 必须保持一致。
+外部发布版本与本地版本使用同一份正文内容，章节、候选论文、排序、行动建议和 Source Notes 必须保持一致。
 
 差异只允许有：
 
-- Obsidian 版本保留 YAML frontmatter。
-- 飞书版本不包含 YAML frontmatter。
-- 飞书版本可使用飞书支持的样式增强展示，但不得改变正文内容。
+- 本地版本保留 YAML frontmatter。
+- 外部版本不包含 YAML frontmatter。
+- 外部版本可使用目标平台支持的样式增强展示，但不得改变正文内容。
 
-飞书版本优先使用稳定 Markdown：标题、表格、加粗、引用块、列表和链接。不要假设 `docx_builtin_import` 能解析 Obsidian callout 或 HTML-like callout 标签。
-
-推荐写法：
-
-```markdown
-# Daily Paper Watch - YYYY-MM-DD
-
-> [!important] 今日最重要
-> - **最建议下载 / 入库**：
-> - **最值得讨论**：
-> - **需要用户判断**：
-
-## 1 Focus Areas Covered
-
-...
-
-## 2 Recommended Candidates
-
-...
-```
-
-如果飞书 Markdown 不支持某些高亮语法，使用加粗、引用块或醒目的小标题替代。
+外部版本优先使用稳定 Markdown：标题、表格、加粗、引用块、列表和链接。不要假设任何特定平台能解析 Obsidian callout 或 HTML-like callout 标签。

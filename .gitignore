@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Private or generated research material
+downloads/
+raw/
+images/
+wiki/log.md
+wiki/daily-report/
+
+# Local app/editor state
+.obsidian/
+.claude/
+
+# Local databases and caches
+*.sqlite
+*.sqlite3
+*.db
+
+# OS noise
+.DS_Store
+Thumbs.db

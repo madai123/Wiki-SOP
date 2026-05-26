@@ -1,11 +1,21 @@
-# Workspace 文件结构说明
+# Docs 使用说明与 Workspace 结构
 
-本 workspace 用于管理论文下载、原文解析、论文总结、概念索引、实体索引、研究空白、方法对比和领域综合理解。
+本目录保存 SOP 和模板，不保存知识库正文。面向公开仓库时，`docs/` 可以作为可复用方法论发布；具体论文、阅读日志、个人偏好和原始材料应按需脱敏。
 
-# 1 总体结构
+## 1 文档分工
+
+- `CLAUDE.md`：全局入口、任务路由、确认边界和执行原则。
+- `docs/Workspace.md`：本目录地图和 workspace 结构说明。
+- `docs/UserFocus.md`：近期关注摘要模板，供 Daily Paper Watch 等轻量任务快速读取；公开前应替换为示例内容。
+- `docs/operation/`：操作流程，回答“怎么做”。
+- `docs/pattern/`：页面模板，回答“写成什么样”。
+- `docs/SOP-Lint-Report.md`：历史审查报告，用于追踪曾经出现过的冲突，不作为执行规范。
+
+## 2 总体结构
 
 ```text
 claude_workspace/
+├── README.md
 ├── CLAUDE.md
 ├── INDEX-paper.md
 ├── INDEX-concept.md
@@ -29,42 +39,46 @@ claude_workspace/
 │   │   └── index.md
 │   └── synthesis/
 └── docs/
-    ├── README.md
     ├── Workspace.md
+    ├── UserFocus.md
     ├── SOP-Lint-Report.md
     ├── operation/
     └── pattern/
 ```
 
-# 2 根目录
+## 3 当前索引约定
 
-## `CLAUDE.md`
+当前 workspace 采用根目录 Dataview 索引：
+
+- `INDEX-paper.md` -> `wiki/papers/`
+- `INDEX-concept.md` -> `wiki/concepts/`
+- `INDEX-entity.md` -> `wiki/entities/`
+- `INDEX-gaps.md` -> `wiki/gaps/`
+- `INDEX-comparisons.md` -> `wiki/comparisons/`
+- `INDEX-synthesis.md` -> `wiki/synthesis/`
+
+不要再新增 `wiki/papers/index.md`、`wiki/concepts/index.md`、`wiki/entities/index.md`、`wiki/gaps/index.md` 或 `wiki/synthesis/index.md` 作为主索引。
+
+例外：`wiki/comparisons/index.md` 已存在，可作为 comparison 手写列表继续使用；根目录 `INDEX-comparisons.md` 可作为 Dataview 总览。
+
+## 4 根目录与输入材料
+
+### `CLAUDE.md`
 
 全局执行规范。模型执行任务前应优先读取，用于确认任务入口、读取范围、写入确认规则和日志规则。
 
-## `INDEX-*.md`
+### `INDEX-*.md`
 
 根目录索引文件，主要通过 Dataview 汇总 `wiki/` 下页面 frontmatter。
 
-- `INDEX-paper.md`：论文总览
-- `INDEX-concept.md`：Concept 总览
-- `INDEX-entity.md`：Entity 总览
-- `INDEX-gaps.md`：Gap / hypothesis / question 总览
-- `INDEX-comparisons.md`：Comparison 总览
-- `INDEX-synthesis.md`：Synthesis 总览
-
-除非用户明确要求迁移结构，不要再新增 `wiki/*/index.md` 作为主索引。
-
-# 3 输入材料
-
-## `downloads/`
+### `downloads/`
 
 保存原始 PDF 和 metadata：
 
 - `paper_id.pdf`
 - `paper_id.json`
 
-## `raw/`
+### `raw/`
 
 保存 OCR / parser 输出：
 
@@ -72,35 +86,29 @@ claude_workspace/
 - `raw/paper_id/paper_id.json`
 - `raw/paper_id/imgs/`
 
-# 4 Wiki 知识库
+公开仓库通常不建议包含完整 `downloads/` 和 `raw/` 内容。
 
-## `wiki/log.md`
+## 5 Wiki 知识库
 
-操作日志。每次写入、删除、合并、索引更新或结构调整后追加记录。
+### `wiki/log.md`
 
-## `wiki/daily-report/`
+操作日志。每次写入、删除、合并、索引更新或结构调整后追加记录。公开前建议检查是否包含私有路径、个人判断或未发布工作。
 
-保存 Daily Paper Watch 生成的 Obsidian 版本日报。
+### `wiki/daily-report/`
 
-日报是 discover report，不等于论文入库。默认文件名：
+保存 Daily Paper Watch 生成的本地日报。日报是 discover report，不等于论文入库。默认文件名：
 
 - `Daily-Paper-Watch-YYYY-MM-DD.md`
 
-该目录下页面可以包含 YAML frontmatter，用于后续按日期、来源、候选数量和状态检索。
-
-## `wiki/papers/`
+### `wiki/papers/`
 
 保存单篇论文 summary，文件名使用 `paper_id.md`。
 
-页面通常包括 metadata、一句话贡献、问题设定、方法核心、Evidence、Limitations and Assumptions、Gap 线索、Figures and Tables、Concept links、Entity links、与已有工作的关系。
+### `wiki/concepts/`
 
-## `wiki/concepts/`
+保存跨论文复用的方法、机制、理论、训练目标、表示方式或研究路线。Concept 总览来自各页面 frontmatter 和 `INDEX-concept.md`。
 
-保存跨论文复用的方法、机制、理论、训练目标、表示方式或研究路线。
-
-Concept 总览来自各页面 frontmatter 和 `INDEX-concept.md`，不维护 `wiki/concepts/index.md`。
-
-## `wiki/entities/`
+### `wiki/entities/`
 
 保存具体对象，仅维护四类：
 
@@ -111,7 +119,7 @@ Concept 总览来自各页面 frontmatter 和 `INDEX-concept.md`，不维护 `wi
 
 Entity 总览来自各页面 frontmatter 和 `INDEX-entity.md`。
 
-## `wiki/gaps/`
+### `wiki/gaps/`
 
 保存研究空白、假设和开放问题。
 
@@ -119,30 +127,42 @@ Entity 总览来自各页面 frontmatter 和 `INDEX-entity.md`。
 - `wiki/gaps/hypotheses/`：hypothesis
 - `wiki/gaps/questions/`：question
 
-Gap 总览来自各页面 frontmatter 和 `INDEX-gaps.md`。
+### `wiki/comparisons/`
 
-## `wiki/comparisons/`
+保存确认后的横向比较页面。`wiki/comparisons/index.md` 可作为手写列表保留；`INDEX-comparisons.md` 可作为 Dataview 总览。
 
-保存用户确认后的横向比较页面。
+### `wiki/synthesis/`
 
-`wiki/comparisons/index.md` 可作为手写列表保留；`INDEX-comparisons.md` 可作为 Dataview 总览。
+保存确认后的综合理解页面，例如领域地图、方法谱系、共享假设和趋势判断。
 
-## `wiki/synthesis/`
+## 6 Operation 文档
 
-保存用户确认后的综合理解页面，例如领域地图、方法谱系、共享假设和趋势判断。
+- `Discover.md`：论文发现与候选筛选。
+- `DailyPaperWorklist.md`：每日论文发现 worklist，用于基于 `docs/UserFocus.md` 的临时检索、来源检查和候选报告。
+- `UserFocus.md`：近期关注摘要的维护规则。
+- `PDFParse.md`：PDF 到 raw markdown 解析。
+- `Summary.md`：单篇论文 summary 生成。
+- `PaperIndex.md`：论文索引维护。
+- `Concept.md`：Concept 页面维护。
+- `Entity.md`：Entity 页面维护。
+- `Gap.md`：Gap / hypothesis / question 讨论与写入。
+- `Comparison.md`：横向比较讨论与写入。
+- `Synthesis.md`：综合理解讨论与写入。
+- `Batch.md`：批量论文处理顺序。
 
-Synthesis 总览来自各页面 frontmatter 和 `INDEX-synthesis.md`。
+## 7 Pattern 文档
 
-# 5 Docs 文档
+- `DailyPaperReport.md`：每日论文发现报告格式，用于生成本地日报和可选外部发布版本。
+- `Summary.md`：单篇论文 summary 页面模板。
+- `PaperIndex.md`：论文索引字段模板。
+- `Concept.md`：Concept 页面模板。
+- `Entity.md`：Entity 页面模板。
+- `Gap.md`：Gap 页面模板。
+- `Comparison.md`：Comparison 页面模板。
+- `Synthesis.md`：Synthesis 页面模板。
 
-## `docs/operation/`
+## 8 执行顺序
 
-保存流程文档，说明每类任务应该怎么做。
+执行任务时先读 `CLAUDE.md`，再按任务类型读取对应 `docs/operation/*.md`，最后读取对应 `docs/pattern/*.md`。
 
-## `docs/pattern/`
-
-保存页面模板，说明最终页面应该长什么样。
-
-## `docs/SOP-Lint-Report.md`
-
-历史 lint 报告，用来追踪曾经的混乱点，不作为当前执行规范。
+讨论型内容写入前必须经用户确认：Concept 新增/合并/删除、Entity 新增/合并/删除、Gap、Comparison、Synthesis、`check=checked`、`status=end/stable` 等状态收口。
